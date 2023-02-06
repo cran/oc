@@ -40,7 +40,7 @@ add.OCcutline <- function(cutData,lwd=2) {
 plot.OCangles <- function(x, main.title="Cutting Line Angles",
         x.title="Angle in Degrees", y.title="Count",dims=c(1,2),...) {
 
-    if(!class(x)=="OCobject")
+    if(!inherits(x, "OCobject"))
         stop("Input is not of class 'OCobject'.")
     if(x$dimensions==1)
         stop("All angles in 1D Optimal Classification are 90 degrees.")
@@ -52,23 +52,27 @@ plot.OCangles <- function(x, main.title="Cutting Line Angles",
     cutvector1[cutvector2<0] <- -cutvector1[cutvector2<0]
     cutvector2[cutvector2<0] <- -cutvector2[cutvector2<0]
     angles <- atan2(cutvector2,cutvector1)*180/pi
-    
-    suppressWarnings(hist(angles, breaks=seq(0,180,10),
-        main=main.title,
-        xlab=x.title,
-        ylab=y.title,
-        cex.main=1.2,
-        cex.lab=1.2,
-        font.main=2,
-        at=seq(0,180,10)
-        ,...))
+
+    suppressWarnings({
+        hist(angles, breaks=seq(0,180,10),
+             main=main.title,
+             xlab=x.title,
+             ylab=y.title,
+             cex.main=1.2,
+             cex.lab=1.2,
+             font.main=2,
+             axes=FALSE
+             ,...)
+        graphics::axis(1, at=seq(0,180,10))
+        graphics::axis(2)
+    })
 }
 
 plot.OCcutlines <- function(x, main.title="Cutting Lines",
         d1.title="First Dimension", d2.title="Second Dimension",
         lines=50,dims=c(1,2),lwd=2,...) {
 
-    if(!class(x)=="OCobject")
+    if(!inherits(x, "OCobject"))
         stop("Input is not of class 'OCobject'.")
     if(x$dimensions==1)
         stop("All angles in 1D Optimal Classification are 90 degrees.")
@@ -109,7 +113,7 @@ plot.OCcoords <- function (x, main.title="OC Coordinates",
     plotBy="party", color=TRUE, shape=TRUE, cutline=NULL, Legend=TRUE,
     legend.x=0.8,legend.y=1,...) {
    
-    if(!class(x)=="OCobject")
+    if(!inherits(x, "OCobject"))
         stop("Input is not of class 'OCobject'.")
     if(!any(colnames(x$legislators)==plotBy)){
         warning("Variable '", plotBy ,"' does not exist in your OC object.")
@@ -193,7 +197,7 @@ plot.OCcoords <- function (x, main.title="OC Coordinates",
 plot.OCskree <- function(x, main.title="Skree Plot", x.title="Dimension",
                         y.title="Eigenvalue",...) {
 
-    if(!class(x)=="OCobject")
+    if(!inherits(x, "OCobject"))
         stop("Input is not of class 'OCobject'.")
     if(is.null(x$eigenvalues))
     stop("No eigenvalues exist in this OC object.")
@@ -213,7 +217,7 @@ plot.OCskree <- function(x, main.title="Skree Plot", x.title="Dimension",
 }               
 
 plot.OCobject <- function(x,dims=c(1,2),...) {
-    if(!class(x)=="OCobject")
+    if(!inherits(x, "OCobject"))
         stop("Input is not of class 'OCobject'.")
     if(length(dims)!=2 & x$dimensions!=1)
         stop("'dims' must be an integer vector of length 2.")
@@ -233,7 +237,7 @@ plot.OCobject <- function(x,dims=c(1,2),...) {
 
 summary.OCobject<-function(object,verbose=FALSE,...){
 
-    if(!class(object)=="OCobject")
+    if(!inherits(object, "OCobject"))
         stop("Input is not of class 'OCobject'.")
 
     cat("\n\nSUMMARY OF OPTIMAL CLASSIFICATION OBJECT")

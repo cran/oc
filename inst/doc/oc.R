@@ -4,7 +4,7 @@
 ### code chunk number 1: one
 ###################################################
 library(oc)
-#sen90 <- readKH("ftp://voteview.com/sen90kh.ord")
+#sen90 <- readKH("https://voteview.com/static/data/out/votes/S090_votes.ord")
 data(sen90)     #Does same thing as above
 sen90
 
@@ -69,7 +69,7 @@ rc <- rollcall(UN, yea=c(1,2,3), nay=c(4,5,6),
 missing=c(7,8,9),notInLegis=0, legis.names=UNnames,
 legis.data=legData,
 desc="UN Votes",
-source="www.voteview.com")
+source="legacy.voteview.com")
 result<-oc(rc,polarity=1,dims=1)
 
 
